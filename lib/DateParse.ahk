@@ -1,14 +1,16 @@
 ; ===================================================================================
-; AHK Version ...: AHK 2.0-a081-cad307c x64 Unicode
-; Win Version ...: Windows 7 Professional x64 SP1
+; AHK Version ...: Tested with AHK 2.0-a081-cad307c x64 Unicode
+; Win Version ...: Tested with Windows 7 Professional x64 SP1
 ; Description ...: Converts almost any date format to a YYYYMMDDHH24MISS value.
-; Modified ......: 2017.10.27
+; Modified ......: 2017.11.01
 ; Author ........:  * Original - dougal/polyethene (original)
 ; ...............   * 20171101 - hoppfrosch 
 ; .............................. * update to V2
 ; .............................. * added more dates to be parsed
-; Licence .......: ???
-; Source ........: http://www.autohotkey.com/board/topic/18760-date-parser-convert-any-date-format-to-yyyymmddhh24miss/page-6#entry640277
+; Licence .......: https://creativecommons.org/publicdomain/zero/1.0/
+; Source ........: Original: http://www.autohotkey.com/board/topic/18760-date-parser-convert-any-date-format-to-yyyymmddhh24miss/page-6#entry640277
+; ................ V2 : https://github.com/AutoHotkey-V2/DateParse
+; Version........: 2.0.0
 ; ===================================================================================
 
 /*
@@ -19,16 +21,34 @@
 		str - a date/time stamp as a string
 
 	Returns:
-		A valid YYYYMMDDHH24MISS value which can be used by FormatTime, EnvAdd and other time commands.
+		A valid YYYYMMDDHH24MISS value which can be used by FormatTime, DateDiff and other time commands.
 
 	Example:
-> time := DateParse("2:35 PM, 27 November, 2007")
+> dt := DateParse("2:35 PM, 27 November, 2007") ; -> "200711271435"
+> dt := DateParse("4:55 am Feb 27, 2004") ; -> "200402270455"
+> dt := DateParse("Mon, 17 Aug 2009 13:23:33 GMT") ; -> "20090817132333"
+> dt := DateParse("07 Mar 2009 13:43:58") ; -> "20090307134358"
+> dt := DateParse("2007-06-26T14:09:12Z") ; -> "20070626140912"
+> dt := DateParse("2007-06-25 18:52") ; -> "200706251852"
+> dt := DateParse("19/2/05") ; -> "20050219"
+> dt := DateParse("10/12/2007") ; -> "20071210"
+> dt := DateParse("3/15/2009") ; -> "20090315"
+> dt := DateParse("05-Jan-00") ; -> "20000105"
+> dt := DateParse("Jan-05-00") ; -> "20000105"
+> dt := DateParse("Dec-31-13") ; -> "20131231"
+> dt := DateParse("Wed 6/27/2007") ; -> "20070627"
+> dt := DateParse("May1960") ; -> "19600501"
+> dt := DateParse("25May1960") ; -> "19600525"
+> dt := DateParse("201710") ; -> "20171001"
+> ; YYYYMMDD is to be replaced with today
+> dt := DateParse("1532") ; -> "YYYYMMDD1532"
+> dt := DateParse("11:26") ; -> "YYYYMMDD1126"
+> dt := DateParse("2:35 PM") ; -> "YYYYMMDD1435"
+> dt := DateParse("11:22:24 AM") ; -> "YYYYMMDD112224"
 
 	License:
-		- Version 2.0 <http://www.autohotkey.net/~polyethene/#dateparse>
 		- Dedicated to the public domain (CC0 1.0) <http://creativecommons.org/publicdomain/zero/1.0/>
 */
-
 /*
 Modified return values:
 	Partial date returns
